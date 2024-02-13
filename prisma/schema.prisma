@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model rnc_locus {
+  id                  Int                @id
+  assembly_id         String
+  locus_name          String
+  public_locus_name   String
+  chromosome          String
+  strand              String
+  locus_start         Int
+  locus_stop          Int
+  member_count        Int
+  locus_members       rnc_locus_members[]
+}
+
+model rnc_locus_members {
+  id                  Int       @id
+  urs_taxid           String
+  region_id           Int
+  membership_status   String
+  locus               rnc_locus   @relation(fields: [locus_id], references: [id])
+  locus_id            Int     
+}
